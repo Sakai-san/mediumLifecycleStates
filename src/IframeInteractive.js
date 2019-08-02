@@ -1,6 +1,6 @@
 import React from "react";
 import isURL from "validator/lib/isURL";
-import spinner from "./spinner.gif";
+import spinner from "./ring-loader.gif";
 
 class Iframe extends React.Component {
   constructor(props) {
@@ -73,7 +73,6 @@ class IframeWithSpinner extends React.Component {
     return (
       <div>
         {isLoading && <img src={spinner} alt="spinner" />}
-
         <Iframe url={url} onLoad={this.handleOnLoad} />
       </div>
     );
@@ -88,13 +87,12 @@ export default class IframeInteractive extends React.Component {
   handleOnChange = e => this.setState({ url: e.target.value });
 
   render() {
+    const { url } = this.state;
     return (
       <div>
-        <input onChange={this.handleOnChange} style={{ margin: "20px" }} />
-        {isURL(this.state.url) && <IframeWithSpinner url={this.state.url} />}
+        <input onChange={this.handleOnChange} />
+        {isURL(url) && <IframeWithSpinner url={url} />}
       </div>
     );
   }
 }
-
-//https://html.spec.whatwg.org/
