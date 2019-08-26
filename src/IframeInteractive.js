@@ -65,10 +65,11 @@ export default class IframeInteractive extends React.Component {
   handleOnChange = e => this.setState({ url: e.target.value });
 
   render() {
+    const { url } = this.state;
     return (
       <div>
         <input onChange={this.handleOnChange} />
-        {isURL(this.state.url) && <IframeWithSpinner url={this.state.url} />}
+        {isURL(url) && <IframeWithSpinner url={url} />}
       </div>
     );
   }
