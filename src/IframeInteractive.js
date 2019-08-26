@@ -17,9 +17,7 @@ class Iframe extends React.Component {
     return null;
   }
 
-  handleOnLoad = e => {
-    this.props.onLoad(e);
-  };
+  handleOnLoad = e => this.props.onLoad(e);
 
   render() {
     return <iframe src={this.props.url} onLoad={this.handleOnLoad} />;
