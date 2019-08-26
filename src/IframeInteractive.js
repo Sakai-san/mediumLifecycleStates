@@ -3,19 +3,13 @@ import isURL from "validator/lib/isURL";
 import spinner from "./ring-loader.gif";
 
 class Iframe extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hasError: false,
-      prevUrl: props.url
-    };
-  }
+  state = {
+    prevUrl: this.props.url
+  };
 
   static getDerivedStateFromProps(props, state) {
     if (props.url !== state.prevUrl) {
       return {
-        hasError: false,
         prevUrl: props.url
       };
     }
@@ -24,35 +18,19 @@ class Iframe extends React.Component {
   }
 
   handleOnLoad = e => {
-    const hasIframe = e.target.contentWindow.length;
-
-    if (!hasIframe) {
-      this.setState({ hasError: true });
-    }
-
     this.props.onLoad(e);
   };
 
   render() {
-    const [{ url }, { hasError }] = [this.props, this.state];
-
-    return hasError ? (
-      <div>Cannot load the iframe</div>
-    ) : (
-      <iframe src={url} onLoad={this.handleOnLoad} />
-    );
+    return <iframe src={this.props.url} onLoad={this.handleOnLoad} />;
   }
 }
 
 class IframeWithSpinner extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoading: true,
-      prevUrl: props.url
-    };
-  }
+  state = {
+    isLoading: true,
+    prevUrl: this.props.url
+  };
 
   static getDerivedStateFromProps(props, state) {
     if (props.url !== state.prevUrl) {
@@ -87,11 +65,10 @@ export default class IframeInteractive extends React.Component {
   handleOnChange = e => this.setState({ url: e.target.value });
 
   render() {
-    const { url } = this.state;
     return (
       <div>
         <input onChange={this.handleOnChange} />
-        {isURL(url) && <IframeWithSpinner url={url} />}
+        {isURL(this.state.url) && <IframeWithSpinner url={this.state.url} />}
       </div>
     );
   }
